@@ -1,0 +1,243 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background-0: #ffffff;
+  --background-1: #171717;
+  --background-2: #171717;
+  --foreground-0: #F8F8F8;
+  --foreground-1: #BCBCBC;
+  --foreground-2: #a6a6a6;
+  --focus-color: #325ac0;
+  --hr-accent: rgb(200, 107, 54);
+  --codebox-bg: #0a0c10;
+
+  --color-0: #5388ec;
+  --color-1: #7dc6ed;
+  --color-2: #C586A1;
+  --color-3: #fcea84;
+  --color-4: #f5eac2;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background-0: #1c1e22; /* #27272A; */
+    --background-1: #2d2d36; /* #3F3F46; */
+    --background-2: #BCBCBC;
+    --foreground-0: #F8F8F8;
+    --foreground-1: #BCBCBC;
+    --foreground-2: #888888;
+    --focus-color: #325ac0;
+    --hr-accent: rgb(200, 107, 54);
+  }
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+.bg-0 {
+  background-color: var(--background-0);
+}
+
+.bg-1 {
+  background-color: var(--background-1);
+}
+
+.bg-2 {
+  background-color: var(--background-2);
+}
+
+.c-0 {
+  color: var(--foreground-0);
+}
+
+.c-1 {
+  color: var(--foreground-1);
+}
+
+.c-2 {
+  color: var(--foreground-2);
+}
+
+.border-0 {
+  border-color: var(--background-0);
+}
+
+.border-1 {
+  border-color: var(--background-1);
+}
+
+.border-2 {
+  border-color: var(--background-2);
+}
+
+.hide-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.hide-scroll {
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+}
+
+.new-scroll::-webkit-scrollbar {
+  width: 5px;
+  right: 5px;
+}
+
+.new-scroll::-webkit-scrollbar-track {
+  background: none;
+}
+
+.new-scroll::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 5px;
+}
+
+body {
+  background: var(--background-0);
+  color: var(--foreground-0);
+  font-family: "Montserrat", sans-serif;
+}
+
+h1 {
+  font-size: 2rem;
+  font-weight: 600;
+  padding-bottom: 1rem;
+}
+h2 {
+  font-size: 1.5rem;
+  font-weight: 500;
+  margin-bottom: 0.75rem;
+}
+h3 {
+  font-size: 1rem;
+  font-weight: 500;
+  padding-bottom: 0.25rem;
+}
+
+p {
+  font-size: 0.7rem;
+  color: var(--foreground-2);
+}
+
+hr {
+  border-color: var(--background-1);
+  border-width: 1px;
+  margin: 1rem 0.25rem;
+}
+
+.big-hr {
+  border-color: var(--hr-accent);
+  border-width: 2px;
+}
+
+table,
+tr, td{
+  border: 2px solid var(--background-1);
+}
+
+table {
+  min-width: 250px;
+}
+
+td {
+  padding: 0.5rem 1.5rem;
+  font-size: 0.75rem;
+}
+
+.hide-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.hide-scroll {
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+}
+
+.new-scroll::-webkit-scrollbar {
+  width: 5px;
+  right: 5px;
+}
+
+.new-scroll::-webkit-scrollbar-track {
+  background: none;
+}
+
+.new-scroll::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 5px;
+}
+
+.new-x-scroll::-webkit-scrollbar {
+  height: 5px;
+}
+
+.new-x-scroll::-webkit-scrollbar-track {
+  background: none;
+}
+
+.new-x-scroll::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 5px;
+}
+
+.tooltip {
+  position: relative;
+}.tooltip:hover {
+  cursor: help;
+}
+
+/* Tooltip text */
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 280px;
+  height: 75px;
+  background-color: var(--background-0);
+  border: 2px dashed var(--hr-accent);
+  border-radius: 15px;
+  display: block;
+  color: var(--hr-accent);
+  text-align: center;
+  overflow: hidden;
+  padding: 0.5rem 1rem;
+ 
+  /* Position the tooltip text - see examples below! */
+  position: absolute;
+  bottom: 35px;
+  left: 0px;
+  z-index: 1;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+
+.c-0 {
+  color: var(--color-0);
+}.c-1 {
+  color: var(--color-1);
+}.c-2 {
+  color: var(--color-2);
+}.c-3 {
+  color: var(--color-3);
+}.c-4 {
+  color: var(--color-4);
+}
+
+.c-fg-0 {
+  color: var(--foreground-0)
+}.c-fg-1 {
+  color: var(--foreground-1)
+}.c-fg-2 {
+  color: var(--foreground-2)
+}

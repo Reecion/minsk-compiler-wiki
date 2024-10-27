@@ -1,0 +1,230 @@
+{
+    "episodes": [
+        {
+            "title": "SyntaxTree",
+            "description": "The SyntaxTree class represents the structure of the parsed source code. It encapsulates diagnostics from the parsing process, the root expression node of the syntax tree, and the token indicating the end of the file. This class is essential for analyzing and evaluating the syntax of the code.",
+            "episode": [
+                1, 2
+            ],
+            "class_scope": "public sealed",
+            "changes": "",
+            "constructors": [
+                {
+                    "scope": "public",
+                    "description": "Initializes a new instance of SyntaxTree with diagnostics, a root expression node, and an end-of-file token.",
+                    "delegated": [],
+                    "body": "Diagnostics = diagnostics.ToArray();\nRoot = root;\nEndOfFileToken = endOfFileToken;",
+                    "parameters": [
+                        {
+                            "name": "diagnostics",
+                            "type": {
+                                "type": "IEnumerable",
+                                "is_list": false,
+                                "children": [
+                                    {
+                                        "type": "string",
+                                        "is_list": false,
+                                        "children": []
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "name": "root",
+                            "type": {
+                                "type": "ExpressionSyntax",
+                                "is_list": false,
+                                "children": []
+                            }
+                        },
+                        {
+                            "name": "endOfFileToken",
+                            "type": {
+                                "type": "SyntaxToken",
+                                "is_list": false,
+                                "children": []
+                            }
+                        }
+                    ]
+                }
+            ],
+            "properties": [
+                {
+                    "scope": "public",
+                    "name": "Diagnostics",
+                    "assignment": "{ get; }",
+                    "description": "A read-only list of diagnostic messages generated during parsing.",
+                    "type": {
+                        "type": "IReadOnlyList",
+                        "is_list": false,
+                        "children": [
+                            {
+                                "type": "string",
+                                "is_list": false,
+                                "children": []
+                            }
+                        ]
+                    }
+                },
+                {
+                    "scope": "public",
+                    "name": "Root",
+                    "assignment": "{ get; }",
+                    "description": "The root node of the syntax tree representing the entire parsed expression.",
+                    "type": {
+                        "type": "ExpressionSyntax",
+                        "is_list": false,
+                        "children": []
+                    }
+                },
+                {
+                    "scope": "public",
+                    "name": "EndOfFileToken",
+                    "assignment": "{ get; }",
+                    "description": "The token that marks the end of the file, indicating that parsing is complete.",
+                    "type": {
+                        "type": "SyntaxToken",
+                        "is_list": false,
+                        "children": []
+                    }
+                }
+            ],
+            "methods": [
+                {
+                    "scope": "public static",
+                    "signature": "Parse",
+                    "description": "Parses the provided source code text and returns a SyntaxTree.",
+                    "body": "var parser = new Parser(text);\nreturn parser.Parse();",
+                    "return_type": {
+                        "type": "SyntaxTree",
+                        "is_list": false,
+                        "children": []
+                    },
+                    "parameters": [
+                        {
+                            "name": "text",
+                            "type": {
+                                "type": "string",
+                                "is_list": false,
+                                "children": []
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "title": "SyntaxTree",
+            "description": "The SyntaxTree class represents the structure of the parsed source code. It encapsulates diagnostics from the parsing process, the root expression node of the syntax tree, and the token indicating the end of the file. This class is essential for analyzing and evaluating the syntax of the code.",
+            "episode": [
+                3, 30
+            ],
+            "class_scope": "public sealed",
+            "changes": "Updated Diagnostics from IReadOnlyList<string> to IReadOnlyList<Diagnostic>.",
+            "constructors": [
+                {
+                    "scope": "public",
+                    "description": "Initializes a new instance of SyntaxTree with diagnostics, a root expression node, and an end-of-file token.",
+                    "delegated": [],
+                    "body": "Diagnostics = diagnostics.ToArray();\nRoot = root;\nEndOfFileToken = endOfFileToken;",
+                    "parameters": [
+                        {
+                            "name": "diagnostics",
+                            "type": {
+                                "type": "IEnumerable",
+                                "is_list": false,
+                                "children": [
+                                    {
+                                        "type": "Diagnostic",
+                                        "is_list": false,
+                                        "children": []
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "name": "root",
+                            "type": {
+                                "type": "ExpressionSyntax",
+                                "is_list": false,
+                                "children": []
+                            }
+                        },
+                        {
+                            "name": "endOfFileToken",
+                            "type": {
+                                "type": "SyntaxToken",
+                                "is_list": false,
+                                "children": []
+                            }
+                        }
+                    ]
+                }
+            ],
+            "properties": [
+                {
+                    "scope": "public",
+                    "name": "Diagnostics",
+                    "assignment": "{ get; }",
+                    "description": "A read-only list of diagnostic messages generated during parsing.",
+                    "type": {
+                        "type": "IReadOnlyList",
+                        "is_list": false,
+                        "children": [
+                            {
+                                "type": "Diagnostic",
+                                "is_list": false,
+                                "children": []
+                            }
+                        ]
+                    }
+                },
+                {
+                    "scope": "public",
+                    "name": "Root",
+                    "assignment": "{ get; }",
+                    "description": "The root node of the syntax tree representing the entire parsed expression.",
+                    "type": {
+                        "type": "ExpressionSyntax",
+                        "is_list": false,
+                        "children": []
+                    }
+                },
+                {
+                    "scope": "public",
+                    "name": "EndOfFileToken",
+                    "assignment": "{ get; }",
+                    "description": "The token that marks the end of the file, indicating that parsing is complete.",
+                    "type": {
+                        "type": "SyntaxToken",
+                        "is_list": false,
+                        "children": []
+                    }
+                }
+            ],
+            "methods": [
+                {
+                    "scope": "public static",
+                    "signature": "Parse",
+                    "description": "Parses the provided source code text and returns a SyntaxTree.",
+                    "body": "var parser = new Parser(text);\nreturn parser.Parse();",
+                    "return_type": {
+                        "type": "SyntaxTree",
+                        "is_list": false,
+                        "children": []
+                    },
+                    "parameters": [
+                        {
+                            "name": "text",
+                            "type": {
+                                "type": "string",
+                                "is_list": false,
+                                "children": []
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

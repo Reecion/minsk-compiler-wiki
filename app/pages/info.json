@@ -1,0 +1,117 @@
+{
+    "changes": [
+        {
+            "change_title": "Episode 1",
+            "change_shorthand": "Ep. 1",
+            "title": "SyntaxToken",
+            "description": "Description...",
+            "constructors": [
+                {
+                    "scope": "public",
+                    "description": "",
+                    "delegated": "",
+                    "parameters": [
+                        {
+                            "name": "kind",
+                            "type": {
+                                "type": "SyntaxKind",
+                                "is_list": false,
+                                "children": []
+                            }
+                        },
+                        {
+                            "name": "position",
+                            "type": {
+                                "type": "int",
+                                "is_list": false,
+                                "children": []
+                            }
+                        },
+                        {
+                            "name": "text",
+                            "type": {
+                                "type": "string",
+                                "is_list": false,
+                                "children": []
+                            }
+                        },
+                        {
+                            "name": "value",
+                            "type": {
+                                "type": "object",
+                                "is_list": false,
+                                "children": []
+                            }
+                        }
+                    ]
+                }
+            ],
+            "properties": [
+                {
+                    "scope": "public override",
+                    "name": "Kind",
+                    "suffix": "",
+                    "readonly": false,
+                    "type": {
+                        "type": "SyntaxKind",
+                        "is_list": false,
+                        "children": []
+                    }
+                },
+                {
+                    "scope": "public",
+                    "name": "Position",
+                    "suffix": "",
+                    "readonly": false,
+                    "type": {
+                        "type": "int",
+                        "is_list": false,
+                        "children": []
+                    }
+                },
+                {
+                    "scope": "public",
+                    "name": "Text",
+                    "suffix": "",
+                    "readonly": false,
+                    "type": {
+                        "type": "string",
+                        "is_list": false,
+                        "children": []
+                    }
+                },
+                {
+                    "scope": "public",
+                    "name": "Value",
+                    "suffix": "",
+                    "readonly": false,
+                    "type": {
+                        "type": "object",
+                        "is_list": false,
+                        "children": []
+                    }
+                }
+            ],
+            "methods": [
+                {
+                    "scope": "public override",
+                    "signature": "GetChildren",
+                    "description": "",
+                    "suffix": "",
+                    "return_type": {
+                        "type": "IEnumerable",
+                        "is_list": false,
+                        "children": [
+                            {
+                                "type": "SyntaxNode",
+                                "is_list": false,
+                                "children": []
+                            }
+                        ]
+                    },
+                    "parameters": []
+                }
+            ]
+        }
+    ]
+}

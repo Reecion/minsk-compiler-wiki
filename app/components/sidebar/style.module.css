@@ -1,0 +1,212 @@
+.sidebar {
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 2px;
+
+    box-shadow: 0px 5px 15px 6px rgba(0, 0, 0, 0.1);
+}
+.sidebarItem {
+    width: 100%;
+    height: 40px;
+    
+    border-radius: 20px;
+}.sidebarItem:hover {
+    background-color: var(--background-1);
+    cursor: pointer;
+}.linkClass{
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    justify-content: flex-start;
+    gap: 10px;
+
+    padding: 0.6rem 1rem;
+    margin: auto 0;
+}.linkClass > span{
+    margin: auto 0;
+    white-space: pre;
+    overflow: hidden;
+}.hasNoLink {
+    display: flex;
+    justify-content: flex-start;
+    gap: 10px;
+
+    padding: 0.6rem 1rem;
+}.hasNoLink > span{
+    margin: auto 0;
+    white-space: pre;
+    overflow: hidden;
+}
+.menuLabel {
+    font-size: 0.6rem;
+    font-weight: 400;
+    color: var(--foreground-1);
+    padding-top: 1.5rem;
+    padding-left: 0.5rem;
+}
+
+.menuItemHeader1 {
+    font-size: 0.7rem;
+    font-weight: 500;
+}
+.menuItemHeader2 {
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+.menuItemSpan {
+    font-size: 0.65rem;
+    font-weight: 400;
+    color: var(--foreground-1);
+}
+.content {
+    padding: 2rem 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+@media screen and (max-width: 500px) {
+    .sidebar[data-collapse="false"] {
+        padding: 2rem 1rem;
+        width: 100%;
+        opacity: 1;
+        visibility: visible;
+        transition: visibility 0s linear 0s, width 0.3s linear, opacity 0.2s linear;
+    }
+    .sidebar[data-collapse="true"] {
+        width: 0px;
+        opacity: 0;
+        visibility: hidden;
+        transition: visibility 0s linear 0.3s, width 0.3s linear, opacity 0.2s linear;
+    }
+    .content[data-collapse="true"] {
+        padding: 2rem 20px;
+        width: 100%;
+        opacity: 1;
+        visibility: visible;
+        transition: visibility 0s linear 0s, width 0.3s linear, opacity 0.2s linear;
+    }
+    .content[data-collapse="false"] {
+        width: 0px;
+        opacity: 0;
+        visibility: hidden;
+        transition: visibility 0s linear 0.3s, width 0.3s linear, opacity 0.2s linear;
+    }
+}
+
+@media screen and (min-width: 501px) {
+    .sidebar[data-collapse="false"] {
+        padding: 2rem 1rem;
+        width: 250px;
+        opacity: 1;
+        visibility: visible;
+        transition: visibility 0s linear 0s, width 0.3s linear, opacity 0.2s linear;
+    }
+    .sidebar[data-collapse="true"] {
+        padding: 2rem 1rem;
+        width: 0px;
+        opacity: 0;
+        visibility: hidden;
+        transition: visibility 0s linear 0.3s, width 0.3s linear, opacity 0.2s linear;
+    }
+    .content[data-collapse="false"] {
+        padding: 2rem 2rem;
+        width: 100%;
+        transition: padding 0.3s linear, width 0.3s linear;
+    }
+    .content[data-collapse="true"] {
+        padding: 2rem 2rem;
+        margin: 0 auto;
+        width: 100%;
+        transition: margin 0.3s linear, padding 0.3s linear, width 0.3s linear;
+    }
+}
+
+
+.searchBar {
+    position: relative;
+    height: 2rem;
+    width: 100%;
+    margin: auto 0;
+} .searchBar:hover {
+    cursor: text;
+}
+
+.searchBarTitle {
+    height: 100%;
+    width: 100%;
+
+    display: flex;
+    justify-content: flex-start;
+    align-content: center;
+    gap: 5px;
+
+    margin: auto 0;
+    border-radius: 100px;
+    background-color: var(--background-1);
+}
+
+.searchBarInput {
+    background-color: transparent;
+    font-size: 0.7rem;
+    color: var(--foreground-1);
+    font-weight: 500;
+    width: 100%;
+}.searchBarInput:focus {
+    outline: none;
+}
+
+.select {
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+    gap: 5px;
+
+    font-size: 0.7rem;
+    color: var(--foreground-1);
+    font-weight: 500;
+}.select:hover {
+    cursor: pointer;
+    color: var(--foreground-0);
+}.select > span {
+    white-space: pre;
+    overflow: hidden;
+}
+
+.searchList {
+    position: absolute;
+    overflow-y: scroll;
+    width: 100%;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding-top: 5px;
+    margin: 0 5px;
+    z-index: 5;
+}
+.searchItem {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+
+    background-color: var(--background-1);
+    border-bottom: 1px solid var(--background-0);
+    border-left: 1px solid var(--background-0);
+    border-right: 1px solid var(--background-0);
+    padding: 10px;
+}.searchItem:hover {
+    background-color: var(--focus-color);
+    cursor: pointer;
+}
+.searchItemTitle {
+    color: var(--foreground-0);
+    font-size: 0.7rem;
+}
+.searchItemDescription {
+    color: var(--foreground-1);
+    font-size: 0.6rem;
+}

@@ -1,0 +1,76 @@
+{
+    "episodes": [
+        {
+            "title": "NumberExpressionSyntax",
+            "description": "The NumberExpressionSyntax class represents a syntax node for numeric expressions within the syntax tree. This node stores a single number token, allowing numerical values to be part of parsed expressions.",
+            "episode": [
+                1, 30
+            ],
+            "class_scope": "sealed",
+            "extends": "ExpressionSyntax",
+            "changes": "This class was immediately removed at the start of next episode and replaced by LiteralExpressionSyntax.",
+            "constructors": [
+                {
+                    "scope": "public",
+                    "description": "Initializes NumberExpressionSyntax with a SyntaxToken representing the number.",
+                    "delegated": [],
+                    "body": "NumberToken = numberToken;",
+                    "parameters": [
+                        {
+                            "name": "numberToken",
+                            "type": {
+                                "type": "SyntaxToken",
+                                "is_list": false,
+                                "children": []
+                            }
+                        }
+                    ]
+                }
+            ],
+            "properties": [
+                {
+                    "scope": "public override",
+                    "name": "Kind",
+                    "assignment": "=> SyntaxKind.NumberExpression",
+                    "description": "Specifies the syntax kind as NumberExpression.",
+                    "type": {
+                        "type": "SyntaxKind",
+                        "is_list": false,
+                        "children": []
+                    }
+                },
+                {
+                    "scope": "public",
+                    "name": "NumberToken",
+                    "assignment": "{ get; }",
+                    "description": "Stores the SyntaxToken representing the numeric value.",
+                    "type": {
+                        "type": "SyntaxToken",
+                        "is_list": false,
+                        "children": []
+                    }
+                }
+            ],
+            "methods": [
+                {
+                    "scope": "public override",
+                    "signature": "GetChildren",
+                    "description": "Returns the number token as the only child node of this syntax node.",
+                    "body": "yield return NumberToken;",
+                    "return_type": {
+                        "type": "IEnumerable",
+                        "is_list": true,
+                        "children": [
+                            {
+                                "type": "SyntaxNode",
+                                "is_list": false,
+                                "children": []
+                            }
+                        ]
+                    },
+                    "parameters": []
+                }
+            ]
+        }
+    ]
+}

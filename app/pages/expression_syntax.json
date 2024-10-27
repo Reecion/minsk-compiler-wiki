@@ -1,0 +1,17 @@
+{
+    "episodes": [
+        {
+            "title": "ExpressionSyntax",
+            "description": "The ExpressionSyntax class is an abstract base class for all expression nodes in the syntax tree. It represents general expressions that can be specialized into different types such as binary expressions, numbers, and parentheses.",
+            "episode": [
+                1, 4
+            ],
+            "class_scope": "public abstract",
+            "changes": "",
+            "extends": "SyntaxNode",
+            "constructors": [],
+            "properties": [],
+            "methods": []
+        }
+    ]
+}

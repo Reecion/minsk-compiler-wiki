@@ -1,0 +1,277 @@
+{
+    "episodes": [
+        {
+            "title": "Evaluator",
+            "description": "The Evaluator class processes syntax nodes from a syntax tree to compute the result of an expression. It navigates through various node types to evaluate expressions involving numbers, binary operations, and parentheses.",
+            "episode": [
+                1, 1
+            ],
+            "class_scope": "public sealed",
+            "changes": "",
+            "constructors": [
+                {
+                    "scope": "public",
+                    "description": "Initializes Evaluator with a root ExpressionSyntax node.",
+                    "delegated": [],
+                    "body": "this._root = root;",
+                    "parameters": [
+                        {
+                            "name": "root",
+                            "type": {
+                                "type": "ExpressionSyntax",
+                                "is_list": false,
+                                "children": []
+                            }
+                        }
+                    ]
+                }
+            ],
+            "properties": [
+                {
+                    "scope": "private readonly",
+                    "name": "_root",
+                    "assignment": "",
+                    "description": "The root node of the expression tree to be evaluated.",
+                    "type": {
+                        "type": "ExpressionSyntax",
+                        "is_list": false,
+                        "children": []
+                    }
+                }
+            ],
+            "methods": [
+                {
+                    "scope": "public",
+                    "signature": "Evaluate",
+                    "description": "Evaluates the expression starting from the root node and returns the computed integer result.",
+                    "body": "return EvaluateExpression(_root);",
+                    "return_type": {
+                        "type": "int",
+                        "is_list": false,
+                        "children": []
+                    },
+                    "parameters": []
+                },
+                {
+                    "scope": "private",
+                    "signature": "EvaluateExpression",
+                    "description": "Evaluates a given syntax node recursively and computes its integer value.",
+                    "body": "if (node is NumberExpressionSyntax n)\n    return (int) n.NumberToken.Value;\n\nif (node is BinaryExpressionSyntax b)\n{\n    var left = EvaluateExpression(b.Left);\n    var right = EvaluateExpression(b.Right);\n    if (b.OperatorToken.Kind == SyntaxKind.PlusToken)\n        return left + right;\n    else if (b.OperatorToken.Kind == SyntaxKind.MinusToken)\n        return left - right;\n    else if (b.OperatorToken.Kind == SyntaxKind.StarToken)\n        return left * right;\n    else if (b.OperatorToken.Kind == SyntaxKind.SlashToken)\n        return left / right;\n    else\n        throw new Exception($\"Unexpected binary operator {b.OperatorToken.Kind}\");\n}\n\nif (node is ParenthesizedExpressionSyntax p)\n    return EvaluateExpression(p.Expression);\n\nthrow new Exception($\"Unexpected node {node.Kind}\");",
+                    "return_type": {
+                        "type": "int",
+                        "is_list": false,
+                        "children": []
+                    },
+                    "parameters": [
+                        {
+                            "name": "node",
+                            "type": {
+                                "type": "ExpressionSyntax",
+                                "is_list": false,
+                                "children": []
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "title": "Evaluator",
+            "description": "The Evaluator class processes bound expressions and evaluates them.",
+            "episode": [
+                2, 2
+            ],
+            "class_scope": "internal",
+            "changes": "Changed root type from ExpressionSyntax to BoundExpression.\n\nReturn type of Evaluate method changed from int to object.\n\nEvaluateExpression now supports unary and binary expressions, with additional operators.",
+            "constructors": [
+                {
+                    "scope": "public",
+                    "description": "Initializes a new instance of the Evaluator class with a bound expression.",
+                    "delegated": [],
+                    "body": "",
+                    "parameters": [
+                        {
+                            "name": "root",
+                            "type": {
+                                "type": "BoundExpression",
+                                "is_list": false,
+                                "children": [],
+                                "suffix": ""
+                            }
+                        }
+                    ]
+                }
+            ],
+            "properties": [
+                {
+                    "scope": "private readonly",
+                    "name": "_root",
+                    "assignment": "",
+                    "description": "Stores the bound expression to be evaluated.",
+                    "type": {
+                        "type": "BoundExpression",
+                        "is_list": false,
+                        "children": [],
+                        "suffix": ""
+                    }
+                }
+            ],
+            "methods": [
+                {
+                    "scope": "public",
+                    "signature": "Evaluate",
+                    "description": "Evaluates the bound expression and returns the result.",
+                    "body": "",
+                    "suffix": "",
+                    "return_type": {
+                        "type": "object",
+                        "is_list": false,
+                        "children": [],
+                        "suffix": ""
+                    },
+                    "parameters": []
+                },
+                {
+                    "scope": "private",
+                    "signature": "EvaluateExpression",
+                    "description": "Evaluates the provided bound expression node.",
+                    "body": "",
+                    "suffix": "",
+                    "return_type": {
+                        "type": "object",
+                        "is_list": false,
+                        "children": [],
+                        "suffix": ""
+                    },
+                    "parameters": [
+                        {
+                            "name": "node",
+                            "type": {
+                                "type": "BoundExpression",
+                                "is_list": false,
+                                "children": [],
+                                "suffix": ""
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "title": "Evaluator",
+            "description": "The Evaluator class processes bound expressions and evaluates them.",
+            "episode": [3, 30],
+            "class_scope": "internal sealed",
+            "changes": "Added support for variable assignment and evaluation in EvaluateExpression. \nIntroduced a dictionary to store variable values.",
+            "constructors": [
+                {
+                    "scope": "public",
+                    "signature": "Evaluator(BoundExpression root, Dictionary<VariableSymbol, object> variables)",
+                    "description": "Initializes a new instance of the Evaluator class with a bound expression and a dictionary of variables.",
+                    "delegated": [],
+                    "body": "_root = root;\n_variables = variables;",
+                    "parameters": [
+                        {
+                            "name": "root",
+                            "type": {
+                                "type": "BoundExpression",
+                                "is_list": false,
+                                "children": []
+                            }
+                        },
+                        {
+                            "name": "variables",
+                            "type": {
+                                "type": "Dictionary",
+                                "is_list": false,
+                                "children": [
+                                    {
+                                        "type": "VariableSymbol",
+                                        "is_list": false,
+                                        "children": []
+                                    },
+                                    {
+                                        "type": "object",
+                                        "is_list": false,
+                                        "children": []
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                }
+            ],
+            "properties": [
+                {
+                    "scope": "private readonly",
+                    "name": "_root",
+                    "assignment": "",
+                    "description": "Stores the bound expression to be evaluated.",
+                    "type": {
+                        "type": "BoundExpression",
+                        "is_list": false,
+                        "children": []
+                    }
+                },
+                {
+                    "scope": "private readonly",
+                    "name": "_variables",
+                    "assignment": "",
+                    "description": "Stores the dictionary of variables for evaluation.",
+                    "type": {
+                        "type": "Dictionary",
+                        "is_list": false,
+                        "children": [
+                            {
+                                "type": "VariableSymbol",
+                                "is_list": false,    
+                                "children": []
+                            },
+                            {
+                                "type": "object",
+                                "is_list": false,    
+                                "children": []
+                            }
+                        ]
+                    }
+                }
+            ],
+            "methods": [
+                {
+                    "scope": "public",
+                    "signature": "Evaluate",
+                    "description": "Evaluates the bound expression and returns the result.",
+                    "body": "return EvaluateExpression(_root);",
+                    "return_type": {
+                        "type": "object",
+                        "is_list": false,
+                        "children": []
+                    },
+                    "parameters": []
+                },
+                {
+                    "scope": "private",
+                    "signature": "EvaluateExpression",
+                    "description": "Evaluates the provided bound expression node.",
+                    "body": "if (node is BoundLiteralExpression n) return n.Value;\n\nif (node is BoundVariableExpression v) return _variables[v.Variable];\n\nif (node is BoundAssignmentExpression a) {\n    var value = EvaluateExpression(a.Expression);\n    _variables[a.Variable] = value;\n    return value;\n}\n\nif (node is BoundUnaryExpression u) {\n    var operand = EvaluateExpression(u.Operand);\n    switch (u.Op.Kind) {\n        case BoundUnaryOperatorKind.Identity:\n            return (int) operand;\n        case BoundUnaryOperatorKind.Negation:\n            return -(int) operand;\n        case BoundUnaryOperatorKind.LogicalNegation:\n            return !(bool) operand;\n        default:\n            throw new Exception($\"Unexpected unary operator {u.Op}\");\n    }\n}\n\nif (node is BoundBinaryExpression b) {\n    var left = EvaluateExpression(b.Left);\n    var right = EvaluateExpression(b.Right);\n    switch (b.Op.Kind) {\n        case BoundBinaryOperatorKind.Addition:\n            return (int) left + (int) right;\n        case BoundBinaryOperatorKind.Subtraction:\n            return (int) left - (int) right;\n        case BoundBinaryOperatorKind.Multiplication:\n            return (int) left * (int) right;\n        case BoundBinaryOperatorKind.Division:\n            return (int) left / (int) right;\n        case BoundBinaryOperatorKind.LogicalAnd:\n            return (bool) left && (bool) right;\n        case BoundBinaryOperatorKind.LogicalOr:\n            return (bool) left || (bool) right;\n        case BoundBinaryOperatorKind.Equals:\n            return Equals(left, right);\n        case BoundBinaryOperatorKind.NotEquals:\n            return !Equals(left, right);\n        default:\n            throw new Exception($\"Unexpected binary operator {b.Op}\");\n    }\n}\n\nthrow new Exception($\"Unexpected node {node.Kind}\");",
+                    "return_type": {
+                        "type": "object",
+                        "is_list": false,
+                        "children": []
+                    },
+                    "parameters": [
+                        {
+                            "name": "node",
+                            "type": {
+                                "type": "BoundExpression",
+                                "is_list": false,
+                                "children": []
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+        
+    ]
+}

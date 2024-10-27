@@ -1,0 +1,425 @@
+{
+    "episodes": [
+        {
+            "title": "Lexer",
+            "class_scope": "internal sealed",
+            "description": "The Lexer class is responsible for analyzing and tokenizing input text in the Minsk compiler. It processes characters from the provided input string to produce syntax tokens, which are then used by the parser to construct a syntax tree. Additionally, the Lexer maintains a diagnostic log for any issues encountered during tokenization.",
+            "changes": "",
+            "episode": [
+                1,
+                1
+            ],
+            "constructors": [
+                {
+                    "scope": "public",
+                    "description": "Constructor initializing the Lexer with input text.",
+                    "delegated": [],
+                    "body": "_text = text;",
+                    "parameters": [
+                        {
+                            "name": "text",
+                            "type": {
+                                "type": "string",
+                                "is_list": false,
+                                "children": []
+                            }
+                        }
+                    ]
+                }
+            ],
+            "properties": [
+                {
+                    "scope": "private readonly",
+                    "name": "_text",
+                    "assignment": "",
+                    "description": "Stores the input text being tokenized.",
+                    "type": {
+                        "type": "string",
+                        "is_list": false,
+                        "children": []
+                    }
+                },
+                {
+                    "scope": "private",
+                    "name": "_position",
+                    "assignment": "",
+                    "description": "Tracks the current position within the input text.",
+                    "type": {
+                        "type": "int",
+                        "is_list": false,
+                        "children": []
+                    }
+                },
+                {
+                    "scope": "private",
+                    "name": "_diagnostics",
+                    "assignment": "= new List<string>()",
+                    "description": "Stores diagnostic messages encountered during tokenization.",
+                    "type": {
+                        "type": "List",
+                        "is_list": true,
+                        "children": [
+                            {
+                                "type": "string",
+                                "is_list": false,
+                                "children": []
+                            }
+                        ]
+                    }
+                },
+                {
+                    "scope": "public",
+                    "name": "Diagnostics",
+                    "assignment": "=> _diagnostics",
+                    "description": "Property exposing the diagnostics list.",
+                    "type": {
+                        "type": "IEnumerable",
+                        "is_list": true,
+                        "children": [
+                            {
+                                "type": "string",
+                                "is_list": false,
+                                "children": []
+                            }
+                        ]
+                    }
+                },
+                {
+                    "scope": "private",
+                    "name": "Current",
+                    "description": "Private method that returns the current character or '\\0' if the position exceeds the text length.",
+                    "custom": "if (_position >= _text.Length)\n\treturn '\\0';\n\nreturn _text[_position];",
+                    "type": {
+                        "type": "char",
+                        "is_list": false,
+                        "children": []
+                    }
+                }
+            ],
+            "methods": [
+                {
+                    "scope": "private",
+                    "signature": "Next",
+                    "description": "Advances the position to the next character.",
+                    "body": "_position++;",
+                    "return_type": {
+                        "type": "void",
+                        "is_list": false,
+                        "children": []
+                    },
+                    "parameters": []
+                },
+                {
+                    "scope": "public",
+                    "signature": "NextToken",
+                    "description": "Analyzes the current character and returns the corresponding token, handling digits, whitespace, operators, and errors. It reads and classifies each character or sequence in the input string and returns a SyntaxToken representing it.",
+                    "body": "// <numbers>\n// + - * / ( )\n// <whitespace>\n\nif (_position >= _text.Length)\n\treturn new SyntaxToken(SyntaxKind.EndOfFileToken, _position, \"\\0\", null);\n\nif (char.IsDigit(Current))\n{\n\tvar start = _position;\n\twhile (char.IsDigit(Current))\n\t\tNext();\n\n\tvar length = _position - start;\n\tvar text = _text.Substring(start, length);\n\n\tif (!int.TryParse(text, out var value))\n\t\t_diagnostics.Add($\"The number {_text} isn't valid Int32.\");\n\n\treturn new SyntaxToken(SyntaxKind.NumberToken, start, text, value);\n}\n\nif (char.IsWhiteSpace(Current))\n{\n\tvar start = _position;\n\twhile (char.IsWhiteSpace(Current))\n\t\tNext();\n\n\tvar length = _position - start;\n\tvar text = _text.Substring(start, length);\n\treturn new SyntaxToken(SyntaxKind.WhitespaceToken, start, text, null);\n}\n\nif (Current == '+')\n\treturn new SyntaxToken(SyntaxKind.PlusToken, _position++, \"+\", null);\nelse if (Current == '-')\n\treturn new SyntaxToken(SyntaxKind.MinusToken, _position++, \"-\", null);\nelse if (Current == '*')\n\treturn new SyntaxToken(SyntaxKind.StarToken, _position++, \"*\", null);\nelse if (Current == '/')\n\treturn new SyntaxToken(SyntaxKind.SlashToken, _position++, \"/\", null);\nelse if (Current == '(')\n\treturn new SyntaxToken(SyntaxKind.OpenParenthesisToken, _position++, \"(\", null);\nelse if (Current == ')')\n\treturn new SyntaxToken(SyntaxKind.CloseParenthesisToken, _position++, \")\", null);\n\n_diagnostics.Add($\"ERROR: bad character input: '{Current}'\");\nreturn new SyntaxToken(SyntaxKind.BadToken, _position++, _text.Substring(_position - 1, 1), null);",
+                    "return_type": {
+                        "type": "SyntaxToken",
+                        "is_list": false,
+                        "children": []
+                    },
+                    "parameters": []
+                }
+            ]
+        },
+        {
+            "title": "Lexer",
+            "class_scope": "internal sealed",
+            "description": "The Lexer class is responsible for analyzing and tokenizing input text in the Minsk compiler. It processes characters from the provided input string to produce syntax tokens, which are then used by the parser to construct a syntax tree. Additionally, the Lexer maintains a diagnostic log for any issues encountered during tokenization.",
+            "changes": "Modified Lex method to include support for multi-character operators: '&&', '||', '==', and '!='. \nAdded Lookahead property and Peek method for lookahead functionality in tokenization. \nChanged Lex method to check for keyword tokens and lookup kinds using SyntaxFacts.",
+            "episode": [
+                2,
+                2
+            ],
+            "constructors": [
+                {
+                    "scope": "public",
+                    "description": "Constructor initializing the Lexer with input text.",
+                    "delegated": [],
+                    "body": "_text = text;",
+                    "parameters": [
+                        {
+                            "name": "text",
+                            "type": {
+                                "type": "string",
+                                "is_list": false,
+                                "children": []
+                            }
+                        }
+                    ]
+                }
+            ],
+            "properties": [
+                {
+                    "scope": "private readonly",
+                    "name": "_text",
+                    "assignment": "",
+                    "description": "Stores the input text being tokenized.",
+                    "type": {
+                        "type": "string",
+                        "is_list": false,
+                        "children": []
+                    }
+                },
+                {
+                    "scope": "private",
+                    "name": "_position",
+                    "assignment": "",
+                    "description": "Tracks the current position within the input text.",
+                    "type": {
+                        "type": "int",
+                        "is_list": false,
+                        "children": []
+                    }
+                },
+                {
+                    "scope": "private",
+                    "name": "_diagnostics",
+                    "assignment": "= new List<string>()",
+                    "description": "Stores diagnostic messages encountered during tokenization.",
+                    "type": {
+                        "type": "List",
+                        "is_list": true,
+                        "children": [
+                            {
+                                "type": "string",
+                                "is_list": false,
+                                "children": []
+                            }
+                        ]
+                    }
+                },
+                {
+                    "scope": "public",
+                    "name": "Diagnostics",
+                    "assignment": "=> _diagnostics",
+                    "description": "Property exposing the diagnostics list.",
+                    "type": {
+                        "type": "IEnumerable",
+                        "is_list": true,
+                        "children": [
+                            {
+                                "type": "string",
+                                "is_list": false,
+                                "children": []
+                            }
+                        ]
+                    }
+                },
+                {
+                    "scope": "private",
+                    "name": "Current",
+                    "assignment": "=> Peek(0)",
+                    "description": "Returns the current character, defaulting to '\\0' if position exceeds text length.",
+                    "type": {
+                        "type": "char",
+                        "is_list": false,
+                        "children": []
+                    }
+                },
+                {
+                    "scope": "private",
+                    "name": "Lookahead",
+                    "assignment": "=> Peek(1)",
+                    "description": "Returns the next character, defaulting to '\\0' if position exceeds text length.",
+                    "type": {
+                        "type": "char",
+                        "is_list": false,
+                        "children": []
+                    }
+                }
+            ],
+            "methods": [
+                {
+                    "scope": "private",
+                    "signature": "Peek",
+                    "description": "Retrieves the character at the given offset from the current position or '\\0' if out of bounds.",
+                    "body": "var index = _position + offset;\nif (index >= _text.Length)\n\treturn '\\0';\n\nreturn _text[index];",
+                    "return_type": {
+                        "type": "char",
+                        "is_list": false,
+                        "children": []
+                    },
+                    "parameters": [
+                        {
+                            "name": "offset",
+                            "type": {
+                                "type": "int",
+                                "is_list": false,
+                                "children": []
+                            }
+                        }
+                    ]
+                },
+                {
+                    "scope": "private",
+                    "signature": "Next",
+                    "description": "Advances the position to the next character.",
+                    "body": "_position++;",
+                    "return_type": {
+                        "type": "void",
+                        "is_list": false,
+                        "children": []
+                    },
+                    "parameters": []
+                },
+                {
+                    "scope": "public",
+                    "signature": "Lex",
+                    "description": "Analyzes the current character and returns the corresponding token, handling digits, whitespace, operators, keywords, and errors. It reads and classifies each character or sequence in the input string and returns a SyntaxToken representing it.",
+                    "body": "if (_position >= _text.Length)\n\treturn new SyntaxToken(SyntaxKind.EndOfFileToken, _position, \"\\0\", null);\n\nif (char.IsDigit(Current))\n{\n\tvar start = _position;\n\twhile (char.IsDigit(Current))\n\t\tNext();\n\n\tvar length = _position - start;\n\tvar text = _text.Substring(start, length);\n\n\tif (!int.TryParse(text, out var value))\n\t\t_diagnostics.Add($\"The number {_text} isn't valid Int32.\");\n\n\treturn new SyntaxToken(SyntaxKind.NumberToken, start, text, value);\n}\n\nif (char.IsWhiteSpace(Current))\n{\n\tvar start = _position;\n\twhile (char.IsWhiteSpace(Current))\n\t\tNext();\n\n\tvar length = _position - start;\n\tvar text = _text.Substring(start, length);\n\treturn new SyntaxToken(SyntaxKind.WhitespaceToken, start, text, null);\n}\n\nif (char.IsLetter(Current))\n{\n\tvar start = _position;\n\twhile (char.IsLetter(Current))\n\t\tNext();\n\n\tvar length = _position - start;\n\tvar text = _text.Substring(start, length);\n\tvar kind = SyntaxFacts.GetKeywordKind(text);\n\treturn new SyntaxToken(kind, start, text, null);\n}\n\nswitch (Current)\n{\n\tcase '+':\n\t\treturn new SyntaxToken(SyntaxKind.PlusToken, _position++, \"+\", null);\n\tcase '-':\n\t\treturn new SyntaxToken(SyntaxKind.MinusToken, _position++, \"-\", null);\n\tcase '*':\n\t\treturn new SyntaxToken(SyntaxKind.StarToken, _position++, \"*\", null);\n\tcase '/':\n\t\treturn new SyntaxToken(SyntaxKind.SlashToken, _position++, \"/\", null);\n\tcase '(': \n\t\treturn new SyntaxToken(SyntaxKind.OpenParenthesisToken, _position++, \"(\", null);\n\tcase ')':\n\t\treturn new SyntaxToken(SyntaxKind.CloseParenthesisToken, _position++, \")\", null);\n\tcase '&':\n\t\tif (Lookahead == '&')\n\t\t\treturn new SyntaxToken(SyntaxKind.AmpersandAmpersandToken, _position += 2, \"&&\", null);\n\t\tbreak;\n\tcase '|':\n\t\tif (Lookahead == '|')\n\t\t\treturn new SyntaxToken(SyntaxKind.PipePipeToken, _position += 2, \"||\", null);\n\t\tbreak;\n\tcase '=':\n\t\tif (Lookahead == '=')\n\t\t\treturn new SyntaxToken(SyntaxKind.EqualsEqualsToken, _position += 2, \"==\", null);\n\t\tbreak;\n\tcase '!':\n\t\tif (Lookahead == '=')\n\t\t\treturn new SyntaxToken(SyntaxKind.BangEqualsToken, _position += 2, \"!=\", null);\n\t\telse\n\t\t\treturn new SyntaxToken(SyntaxKind.BangToken, _position++, \"!\", null);\n}\n\n_diagnostics.Add($\"ERROR: bad character input: '{Current}'\");\nreturn new SyntaxToken(SyntaxKind.BadToken, _position++, _text.Substring(_position - 1, 1), null);",
+                    "return_type": {
+                        "type": "SyntaxToken",
+                        "is_list": false,
+                        "children": []
+                    },
+                    "parameters": []
+                }
+            ]
+        },
+        {
+            "title": "Lexer",
+            "class_scope": "internal sealed",
+            "description": "The Lexer class tokenizes input text into syntax tokens for parsing in the Minsk compiler, tracking diagnostics for invalid syntax and character handling.",
+            "changes": "Replaced List<string> with DiagnosticBag for diagnostics management.\nAdded multi-character operator support for '&&', '||', '==', and '!='.\nAdded Lookahead for lookahead functionality in tokenization and improved error reporting.",
+            "episode": [
+                3, 30
+            ],
+            "constructors": [
+                {
+                    "scope": "public",
+                    "signature": "Lexer",
+                    "description": "Initializes the Lexer with input text for tokenization.",
+                    "delegated": [],
+                    "body": "_text = text;",
+                    "parameters": [
+                        {
+                            "name": "text",
+                            "type": {
+                                "type": "string",
+                                "is_list": false,
+                                "children": []
+                            }
+                        }
+                    ]
+                }
+            ],
+            "properties": [
+                {
+                    "scope": "private readonly",
+                    "name": "_text",
+                    "assignment": "",
+                    "description": "Stores the input text being tokenized.",
+                    "type": {
+                        "type": "string",
+                        "is_list": false,
+                        "children": []
+                    }
+                },
+                {
+                    "scope": "private",
+                    "name": "_position",
+                    "assignment": "",
+                    "description": "Tracks the current position within the input text.",
+                    "type": {
+                        "type": "int",
+                        "is_list": false,
+                        "children": []
+                    }
+                },
+                {
+                    "scope": "private",
+                    "name": "_diagnostics",
+                    "assignment": "= new DiagnosticBag()",
+                    "description": "Stores diagnostic messages encountered during tokenization.",
+                    "type": {
+                        "type": "DiagnosticBag",
+                        "is_list": false,
+                        "children": []
+                    }
+                },
+                {
+                    "scope": "public",
+                    "name": "Diagnostics",
+                    "assignment": "=> _diagnostics",
+                    "description": "Property exposing the DiagnosticBag.",
+                    "type": {
+                        "type": "DiagnosticBag",
+                        "is_list": false,
+                        "children": []
+                    }
+                },
+                {
+                    "scope": "private",
+                    "name": "Current",
+                    "assignment": "=> Peek(0)",
+                    "description": "Returns the current character, defaulting to '\\0' if position exceeds text length.",
+                    "type": {
+                        "type": "char",
+                        "is_list": false,
+                        "children": []
+                    }
+                },
+                {
+                    "scope": "private",
+                    "name": "Lookahead",
+                    "assignment": "=> Peek(1)",
+                    "description": "Returns the next character, defaulting to '\\0' if position exceeds text length.",
+                    "type": {
+                        "type": "char",
+                        "is_list": false,
+                        "children": []
+                    }
+                }
+            ],
+            "methods": [
+                {
+                    "scope": "private",
+                    "signature": "Peek",
+                    "description": "Retrieves the character at the specified offset from the current position, or '\\0' if out of bounds.",
+                    "body": "var index = _position + offset;\nif (index >= _text.Length)\n\treturn '\\0';\n\nreturn _text[index];",
+                    "return_type": {
+                        "type": "char",
+                        "is_list": false,
+                        "children": []
+                    },
+                    "parameters": [
+                        {
+                            "name": "offset",
+                            "type": {
+                                "type": "int",
+                                "is_list": false,
+                                "children": []
+                            }
+                        }
+                    ]
+                },
+                {
+                    "scope": "private",
+                    "signature": "Next",
+                    "description": "Advances the position to the next character in the input text.",
+                    "body": "_position++;",
+                    "return_type": {
+                        "type": "void",
+                        "is_list": false,
+                        "children": []
+                    },
+                    "parameters": []
+                },
+                {
+                    "scope": "public",
+                    "signature": "Lex",
+                    "description": "Tokenizes the input text by analyzing the current character and returning the corresponding SyntaxToken. Handles digits, whitespace, operators, keywords, and invalid characters.",
+                    "body": "if (_position >= _text.Length)\n\treturn new SyntaxToken(SyntaxKind.EndOfFileToken, _position, \"\\0\", null);\n\nvar start = _position;\n\nif (char.IsDigit(Current))\n{\n\twhile (char.IsDigit(Current))\n\t\tNext();\n\n\tvar length = _position - start;\n\tvar text = _text.Substring(start, length);\n\tif (!int.TryParse(text, out var value))\n\t\t_diagnostics.ReportInvalidNumber(new TextSpan(start, length), _text, typeof(int));\n\n\treturn new SyntaxToken(SyntaxKind.NumberToken, start, text, value);\n}\n\nif (char.IsWhiteSpace(Current))\n{\n\twhile (char.IsWhiteSpace(Current))\n\t\tNext();\n\n\tvar length = _position - start;\n\tvar text = _text.Substring(start, length);\n\treturn new SyntaxToken(SyntaxKind.WhitespaceToken, start, text, null);\n}\n\nif (char.IsLetter(Current))\n{\n\twhile (char.IsLetter(Current))\n\t\tNext();\n\n\tvar length = _position - start;\n\tvar text = _text.Substring(start, length);\n\tvar kind = SyntaxFacts.GetKeywordKind(text);\n\treturn new SyntaxToken(kind, start, text, null);\n}\n\nswitch (Current)\n{\n\tcase '+':\n\t\treturn new SyntaxToken(SyntaxKind.PlusToken, _position++, \"+\", null);\n\tcase '-':\n\t\treturn new SyntaxToken(SyntaxKind.MinusToken, _position++, \"-\", null);\n\tcase '*':\n\t\treturn new SyntaxToken(SyntaxKind.StarToken, _position++, \"*\", null);\n\tcase '/':\n\t\treturn new SyntaxToken(SyntaxKind.SlashToken, _position++, \"/\", null);\n\tcase '(': \n\t\treturn new SyntaxToken(SyntaxKind.OpenParenthesisToken, _position++, \"(\", null);\n\tcase ')':\n\t\treturn new SyntaxToken(SyntaxKind.CloseParenthesisToken, _position++, \")\", null);\n\tcase '&':\n\t\tif (Lookahead == '&')\n\t\t{\n\t\t\t_position += 2;\n\t\t\treturn new SyntaxToken(SyntaxKind.AmpersandAmpersandToken, start, \"&&\", null);\n\t\t}\n\t\tbreak;\n\tcase '|':\n\t\tif (Lookahead == '|')\n\t\t{\n\t\t\t_position += 2;\n\t\t\treturn new SyntaxToken(SyntaxKind.PipePipeToken, start, \"||\", null);\n\t\t}\n\t\tbreak;\n\tcase '=':\n\t\tif (Lookahead == '=')\n\t\t{\n\t\t\t_position += 2;\n\t\t\treturn new SyntaxToken(SyntaxKind.EqualsEqualsToken, start, \"==\", null);\n\t\t}\n\t\telse\n\t\t{\n\t\t\t_position += 1;\n\t\t\treturn new SyntaxToken(SyntaxKind.EqualsToken, start, \"=\", null);\n\t\t}\n\tcase '!':\n\t\tif (Lookahead == '=')\n\t\t{\n\t\t\t_position += 2;\n\t\t\treturn new SyntaxToken(SyntaxKind.BangEqualsToken, start, \"!=\", null);\n\t\t}\n\t\telse\n\t\t{\n\t\t\t_position += 1;\n\t\t\treturn new SyntaxToken(SyntaxKind.BangToken, start, \"!\", null);\n\t\t}\n}\n\n_diagnostics.ReportBadCharacter(_position, Current);\nreturn new SyntaxToken(SyntaxKind.BadToken, _position++, _text.Substring(_position - 1, 1), null);",
+                    "return_type": {
+                        "type": "SyntaxToken",
+                        "is_list": false,
+                        "children": []
+                    },
+                    "parameters": []
+                }
+            ]
+        }
+    ]
+}

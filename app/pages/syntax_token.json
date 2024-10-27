@@ -1,0 +1,253 @@
+{
+    "episodes": [
+        {
+            "title": "SyntaxToken",
+            "description": "The SyntaxToken class represents a token in the syntax tree. Each token holds information about its type, position in the source text, text content, and associated value, making it essential for lexical analysis.",
+            "episode": [
+                1, 2
+            ],
+            "class_scope": "public sealed",
+            "extends": "SyntaxNode",
+            "changes": "",
+            "constructors": [
+                {
+                    "scope": "public",
+                    "description": "Initializes a new instance of SyntaxToken with its kind, position, text, and value.",
+                    "delegated": [],
+                    "body": "Kind = kind;\nPosition = position;\nText = text;\nValue = value;",
+                    "parameters": [
+                        {
+                            "name": "kind",
+                            "type": {
+                                "type": "SyntaxKind",
+                                "is_list": false,
+                                "children": []
+                            }
+                        },
+                        {
+                            "name": "position",
+                            "type": {
+                                "type": "int",
+                                "is_list": false,
+                                "children": []
+                            }
+                        },
+                        {
+                            "name": "text",
+                            "type": {
+                                "type": "string",
+                                "is_list": false,
+                                "children": [],
+                                "suffix": ""
+                            }
+                        },
+                        {
+                            "name": "value",
+                            "type": {
+                                "type": "object",
+                                "is_list": false,
+                                "children": []
+                            }
+                        }
+                    ]
+                }
+            ],
+            "properties": [
+                {
+                    "scope": "public override",
+                    "name": "Kind",
+                    "assignment": "{ get; }",
+                    "description": "The type of syntax token, defining what kind of token it is.",
+                    "type": {
+                        "type": "SyntaxKind",
+                        "is_list": false,
+                        "children": []
+                    }
+                },
+                {
+                    "scope": "public",
+                    "name": "Position",
+                    "assignment": "{ get; }",
+                    "description": "The position of the token in the source text.",
+                    "type": {
+                        "type": "int",
+                        "is_list": false,
+                        "children": []
+                    }
+                },
+                {
+                    "scope": "public",
+                    "name": "Text",
+                    "assignment": "{ get; }",
+                    "description": "The actual text of the token from the source code.",
+                    "type": {
+                        "type": "string",
+                        "is_list": false,
+                        "children": []
+                    }
+                },
+                {
+                    "scope": "public",
+                    "name": "Value",
+                    "assignment": "{ get; }",
+                    "description": "The value associated with the token, which can be of various types.",
+                    "type": {
+                        "type": "object",
+                        "is_list": false,
+                        "children": []
+                    }
+                }
+            ],
+            "methods": [
+                {
+                    "scope": "public",
+                    "signature": "GetChildren",
+                    "description": "Returns an empty enumerable since tokens do not have child nodes.",
+                    "body": "return Enumerable.Empty<SyntaxNode>();",
+                    "return_type": {
+                        "type": "IEnumerable",
+                        "is_list": true,
+                        "children": [
+                            {
+                                "type": "SyntaxNode",
+                                "is_list": false,
+                                "children": []
+                            }
+                        ]
+                    },
+                    "parameters": []
+                }
+            ]
+        },
+        {
+            "title": "SyntaxToken",
+            "description": "The SyntaxToken class represents a token in the syntax tree. Each token holds information about its type, position in the source text, text content, and associated value, making it essential for lexical analysis.",
+            "episode": [
+                3, 30
+            ],
+            "class_scope": "public sealed",
+            "extends": "SyntaxNode",
+            "changes": "Added Span property that holds token's TextSpan.",
+            "constructors": [
+                {
+                    "scope": "public",
+                    "description": "Initializes a new instance of SyntaxToken with its kind, position, text, and value.",
+                    "delegated": [],
+                    "body": "Kind = kind;\nPosition = position;\nText = text;\nValue = value;",
+                    "parameters": [
+                        {
+                            "name": "kind",
+                            "type": {
+                                "type": "SyntaxKind",
+                                "is_list": false,
+                                "children": []
+                            }
+                        },
+                        {
+                            "name": "position",
+                            "type": {
+                                "type": "int",
+                                "is_list": false,
+                                "children": []
+                            }
+                        },
+                        {
+                            "name": "text",
+                            "type": {
+                                "type": "string",
+                                "is_list": false,
+                                "children": [],
+                                "suffix": ""
+                            }
+                        },
+                        {
+                            "name": "value",
+                            "type": {
+                                "type": "object",
+                                "is_list": false,
+                                "children": []
+                            }
+                        }
+                    ]
+                }
+            ],
+            "properties": [
+                {
+                    "scope": "public override",
+                    "name": "Kind",
+                    "assignment": "{ get; }",
+                    "description": "The type of syntax token, defining what kind of token it is.",
+                    "type": {
+                        "type": "SyntaxKind",
+                        "is_list": false,
+                        "children": []
+                    }
+                },
+                {
+                    "scope": "public",
+                    "name": "Position",
+                    "assignment": "{ get; }",
+                    "description": "The position of the token in the source text.",
+                    "type": {
+                        "type": "int",
+                        "is_list": false,
+                        "children": []
+                    }
+                },
+                {
+                    "scope": "public",
+                    "name": "Text",
+                    "assignment": "{ get; }",
+                    "description": "The actual text of the token from the source code.",
+                    "type": {
+                        "type": "string",
+                        "is_list": false,
+                        "children": []
+                    }
+                },
+                {
+                    "scope": "public",
+                    "name": "Value",
+                    "assignment": "{ get; }",
+                    "description": "The value associated with the token, which can be of various types.",
+                    "type": {
+                        "type": "object",
+                        "is_list": false,
+                        "children": []
+                    }
+                },
+                {
+                    "scope": "public",
+                    "name": "Span",
+                    "assignment": "=> new TextSpan(Position, Text.Length)",
+                    "description": "Holds the position and length of the token.",
+                    "type": {
+                        "type": "TextSpan",
+                        "is_list": false,
+                        "children": []
+                    }
+                }
+            ],
+            "methods": [
+                {
+                    "scope": "public",
+                    "signature": "GetChildren",
+                    "description": "Returns an empty enumerable since tokens do not have child nodes.",
+                    "body": "return Enumerable.Empty<SyntaxNode>();",
+                    "return_type": {
+                        "type": "IEnumerable",
+                        "is_list": true,
+                        "children": [
+                            {
+                                "type": "SyntaxNode",
+                                "is_list": false,
+                                "children": []
+                            }
+                        ]
+                    },
+                    "parameters": []
+                }
+            ]
+        }
+    ]
+}

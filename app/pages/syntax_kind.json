@@ -1,0 +1,320 @@
+{
+    "episodes": [
+        {
+            "title": "SyntaxKind",
+            "description": "The SyntaxToken class represents a token in the syntax tree. Each token holds information about its type, position in the source text, text content, and associated value, making it essential for lexical analysis.",
+            "episode": [
+                1, 1
+            ],
+            "class_scope": "public enum",
+            "tables": [
+                {
+                    "title": "Tokens",
+                    "items": [
+                        {
+                            "name": "NumberToken",
+                            "color": "normal"
+                        },
+                        {
+                            "name": "WhitespaceToken",
+                            "color": "normal"
+                        },
+                        {
+                            "name": "PlusToken",
+                            "color": "normal"
+                        },
+                        {
+                            "name": "MinusToken",
+                            "color": "normal"
+                        },
+                        {
+                            "name": "StarToken",
+                            "color": "normal"
+                        },
+                        {
+                            "name": "SlashToken",
+                            "color": "normal"
+                        },
+                        {
+                            "name": "OpenParenthesisToken",
+                            "color": "normal"
+                        },
+                        {
+                            "name": "CloseParenthesisToken",
+                            "color": "normal"
+                        },
+                        {
+                            "name": "BadToken",
+                            "color": "normal"
+                        },
+                        {
+                            "name": "EndOfFileToken",
+                            "color": "normal"
+                        }
+                    ]
+                },
+                {
+                    "title": "Expressions",
+                    "items": [
+                        {
+                            "name": "NumberExpression",
+                            "color": "red",
+                            "hint": "This was removed at the start of next episode and replaced by LiteralExpression."
+                        },
+                        {
+                            "name": "BinaryExpression",
+                            "color": "normal"
+                        },
+                        {
+                            "name": "ParenthesizedExpression",
+                            "color": "normal"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "title": "SyntaxKind",
+            "description": "The SyntaxToken class represents a token in the syntax tree. Each token holds information about its type, position in the source text, text content, and associated value, making it essential for lexical analysis.",
+            "episode": [
+                2, 2
+            ],
+            "class_scope": "public enum",
+            "tables": [
+                {
+                    "title": "Tokens",
+                    "items": [
+                        {
+                            "name": "BadToken",
+                            "color": "normal"
+                        },
+                        {
+                            "name": "EndOfFileToken",
+                            "color": "normal"
+                        },
+                        {
+                            "name": "WhitespaceToken",
+                            "color": "normal"
+                        },
+                        {
+                            "name": "NumberToken",
+                            "color": "normal"
+                        },
+                        {
+                            "name": "PlusToken",
+                            "color": "normal"
+                        },
+                        {
+                            "name": "MinusToken",
+                            "color": "normal"
+                        },
+                        {
+                            "name": "StarToken",
+                            "color": "normal"
+                        },
+                        {
+                            "name": "SlashToken",
+                            "color": "normal"
+                        },
+                        {
+                            "name": "BangToken",
+                            "color": "new"
+                        },
+                        {
+                            "name": "AmpersandAmpersandToken",
+                            "color": "new"
+                        },
+                        {
+                            "name": "PipePipeToken",
+                            "color": "new"
+                        },
+                        {
+                            "name": "EqualsEqualsToken",
+                            "color": "new"
+                        },
+                        {
+                            "name": "BangEqualsToken",
+                            "color": "new"
+                        },
+                        {
+                            "name": "OpenParenthesisToken",
+                            "color": "normal"
+                        },
+                        {
+                            "name": "CloseParenthesisToken",
+                            "color": "normal"
+                        },
+                        {
+                            "name": "IdentifierToken",
+                            "color": "new"
+                        }
+                    ]
+                },
+                {
+                    "title": "Keywords",
+                    "items": [
+                        {
+                            "name": "FalseKeyword",
+                            "color": "new"
+                        },
+                        {
+                            "name": "TrueKeyword",
+                            "color": "new"
+                        }
+                    ]
+                },
+                {
+                    "title": "Expressions",
+                    "items": [
+                        {
+                            "name": "NumberExpression",
+                            "color": "red",
+                            "hint": "Removed in this episode."
+                        },
+                        {
+                            "name": "LiteralExpression",
+                            "color": "new"
+                        },
+                        {
+                            "name": "UnaryExpression",
+                            "color": "new"
+                        },
+                        {
+                            "name": "BinaryExpression",
+                            "color": "normal"
+                        },
+                        {
+                            "name": "ParenthesizedExpression",
+                            "color": "normal"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "title": "SyntaxKind",
+            "description": "The SyntaxToken class represents a token in the syntax tree. Each token holds information about its type, position in the source text, text content, and associated value, making it essential for lexical analysis.",
+            "episode": [
+                3, 30
+            ],
+            "class_scope": "public enum",
+            "tables": [
+                {
+                    "title": "Tokens",
+                    "items": [
+                        {
+                            "name": "BadToken",
+                            "color": "normal"
+                        },
+                        {
+                            "name": "EndOfFileToken",
+                            "color": "normal"
+                        },
+                        {
+                            "name": "WhitespaceToken",
+                            "color": "normal"
+                        },
+                        {
+                            "name": "NumberToken",
+                            "color": "normal"
+                        },
+                        {
+                            "name": "PlusToken",
+                            "color": "normal"
+                        },
+                        {
+                            "name": "MinusToken",
+                            "color": "normal"
+                        },
+                        {
+                            "name": "StarToken",
+                            "color": "normal"
+                        },
+                        {
+                            "name": "SlashToken",
+                            "color": "normal"
+                        },
+                        {
+                            "name": "BangToken",
+                            "color": "normal"
+                        },
+                        {
+                            "name": "EqualsToken",
+                            "color": "new"
+                        },
+                        {
+                            "name": "AmpersandAmpersandToken",
+                            "color": "normal"
+                        },
+                        {
+                            "name": "PipePipeToken",
+                            "color": "normal"
+                        },
+                        {
+                            "name": "EqualsEqualsToken",
+                            "color": "normal"
+                        },
+                        {
+                            "name": "BangEqualsToken",
+                            "color": "normal"
+                        },
+                        {
+                            "name": "OpenParenthesisToken",
+                            "color": "normal"
+                        },
+                        {
+                            "name": "CloseParenthesisToken",
+                            "color": "normal"
+                        },
+                        {
+                            "name": "IdentifierToken",
+                            "color": "normal"
+                        }
+                    ]
+                },
+                {
+                    "title": "Keywords",
+                    "items": [
+                        {
+                            "name": "FalseKeyword",
+                            "color": "normal"
+                        },
+                        {
+                            "name": "TrueKeyword",
+                            "color": "normal"
+                        }
+                    ]
+                },
+                {
+                    "title": "Expressions",
+                    "items": [
+                        {
+                            "name": "LiteralExpression",
+                            "color": "normal"
+                        },
+                        {
+                            "name": "NameExpression",
+                            "color": "new"
+                        },
+                        {
+                            "name": "UnaryExpression",
+                            "color": "normal"
+                        },
+                        {
+                            "name": "BinaryExpression",
+                            "color": "normal"
+                        },
+                        {
+                            "name": "ParenthesizedExpression",
+                            "color": "normal"
+                        },
+                        {
+                            "name": "AssignmentExpression",
+                            "color": "new"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

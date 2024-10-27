@@ -1,0 +1,47 @@
+{
+    "episodes": [
+        {
+            "title": "SyntaxNode",
+            "description": "The SyntaxNode class is an abstract base class for all nodes in the syntax tree. It defines core properties and methods common to all syntax nodes, including the Kind and the GetChildren method for traversing child nodes.",
+            "episode": [
+                1, 30
+            ],
+            "class_scope": "public abstract",
+            "changes": "",
+            "constructors": [],
+            "properties": [
+                {
+                    "scope": "public",
+                    "name": "Kind",
+                    "assignment": "{ get; }",
+                    "description": "Specifies the kind of syntax node, to be implemented by derived classes.",
+                    "type": {
+                        "type": "SyntaxKind",
+                        "is_list": false,
+                        "children": []
+                    }
+                }
+            ],
+            "methods": [
+                {
+                    "scope": "public",
+                    "signature": "GetChildren",
+                    "description": "Returns the child nodes of the current syntax node. Intended for use in tree traversal.",
+                    "body": "",
+                    "return_type": {
+                        "type": "IEnumerable",
+                        "is_list": true,
+                        "children": [
+                            {
+                                "type": "SyntaxNode",
+                                "is_list": false,
+                                "children": []
+                            }
+                        ]
+                    },
+                    "parameters": []
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,114 @@
+{
+    "episodes": [
+        {
+            "title": "ParenthesizedExpressionSyntax",
+            "description": "The ParenthesizedExpressionSyntax class represents a syntax node for expressions enclosed in parentheses. It captures the open parenthesis, the inner expression, and the closing parenthesis as child nodes.",
+            "episode": [
+                1, 30
+            ],
+            "class_scope": "public sealed",
+            "extends": "ExpressionSyntax",
+            "changes": "",
+            "constructors": [
+                {
+                    "scope": "public",
+                    "description": "Initializes ParenthesizedExpressionSyntax with tokens for the parentheses and the inner expression.",
+                    "delegated": [],
+                    "body": "OpenParenthesisToken = openParenthesisToken;\nExpression = expression;\nCloseParenthesisToken = closeParenthesisToken;",
+                    "parameters": [
+                        {
+                            "name": "openParenthesisToken",
+                            "type": {
+                                "type": "SyntaxToken",
+                                "is_list": false,
+                                "children": []
+                            }
+                        },
+                        {
+                            "name": "expression",
+                            "type": {
+                                "type": "ExpressionSyntax",
+                                "is_list": false,
+                                "children": []
+                            }
+                        },
+                        {
+                            "name": "closeParenthesisToken",
+                            "type": {
+                                "type": "SyntaxToken",
+                                "is_list": false,
+                                "children": []
+                            }
+                        }
+                    ]
+                }
+            ],
+            "properties": [
+                {
+                    "scope": "public override",
+                    "name": "Kind",
+                    "assignment": "=> SyntaxKind.ParenthesizedExpression",
+                    "description": "Specifies the syntax kind as ParenthesizedExpression.",
+                    "type": {
+                        "type": "SyntaxKind",
+                        "is_list": false,
+                        "children": []
+                    }
+                },
+                {
+                    "scope": "public",
+                    "name": "OpenParenthesisToken",
+                    "assignment": "{ get; }",
+                    "description": "The token representing the opening parenthesis.",
+                    "type": {
+                        "type": "SyntaxToken",
+                        "is_list": false,
+                        "children": []
+                    }
+                },
+                {
+                    "scope": "public",
+                    "name": "Expression",
+                    "assignment": "{ get; }",
+                    "description": "The expression enclosed within the parentheses.",
+                    "type": {
+                        "type": "ExpressionSyntax",
+                        "is_list": false,
+                        "children": []
+                    }
+                },
+                {
+                    "scope": "public",
+                    "name": "CloseParenthesisToken",
+                    "assignment": "{ get; }",
+                    "description": "The token representing the closing parenthesis.",
+                    "type": {
+                        "type": "SyntaxToken",
+                        "is_list": false,
+                        "children": []
+                    }
+                }
+            ],
+            "methods": [
+                {
+                    "scope": "public override",
+                    "signature": "GetChildren",
+                    "description": "Yields each token and expression as children nodes in sequence.",
+                    "body": "yield return OpenParenthesisToken;\nyield return Expression;\nyield return CloseParenthesisToken;",
+                    "return_type": {
+                        "type": "IEnumerable",
+                        "is_list": true,
+                        "children": [
+                            {
+                                "type": "SyntaxNode",
+                                "is_list": false,
+                                "children": []
+                            }
+                        ]
+                    },
+                    "parameters": []
+                }
+            ]
+        }
+    ]
+}

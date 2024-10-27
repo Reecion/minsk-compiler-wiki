@@ -1,0 +1,114 @@
+{
+    "episodes": [
+        {
+            "title": "BinaryExpressionSyntax",
+            "extends": "ExpressionSyntax",
+            "description": "The BinaryExpressionSyntax class represents a binary expression node in the syntax tree, which includes an operator and two expressions (left and right). This allows parsing and evaluating expressions like addition and multiplication.",
+            "episode": [
+                1, 30
+            ],
+            "class_scope": "public sealed",
+            "changes": "",
+            "constructors": [
+                {
+                    "scope": "public",
+                    "description": "Initializes BinaryExpressionSyntax with a left expression, an operator token, and a right expression.",
+                    "delegated": [],
+                    "body": "Left = left;\nOperatorToken = operatorToken;\nRight = right;",
+                    "parameters": [
+                        {
+                            "name": "left",
+                            "type": {
+                                "type": "ExpressionSyntax",
+                                "is_list": false,
+                                "children": []
+                            }
+                        },
+                        {
+                            "name": "operatorToken",
+                            "type": {
+                                "type": "SyntaxToken",
+                                "is_list": false,
+                                "children": []
+                            }
+                        },
+                        {
+                            "name": "right",
+                            "type": {
+                                "type": "ExpressionSyntax",
+                                "is_list": false,
+                                "children": []
+                            }
+                        }
+                    ]
+                }
+            ],
+            "properties": [
+                {
+                    "scope": "public override",
+                    "name": "Kind",
+                    "assignment": "=> SyntaxKind.BinaryExpression",
+                    "description": "Specifies the syntax kind as BinaryExpression.",
+                    "type": {
+                        "type": "SyntaxKind",
+                        "is_list": false,
+                        "children": []
+                    }
+                },
+                {
+                    "scope": "public",
+                    "name": "Left",
+                    "assignment": "{ get; }",
+                    "description": "The left side of the binary expression.",
+                    "type": {
+                        "type": "ExpressionSyntax",
+                        "is_list": false,
+                        "children": []
+                    }
+                },
+                {
+                    "scope": "public",
+                    "name": "OperatorToken",
+                    "assignment": "{ get; }",
+                    "description": "The operator used in the binary expression.",
+                    "type": {
+                        "type": "SyntaxToken",
+                        "is_list": false,
+                        "children": []
+                    }
+                },
+                {
+                    "scope": "public",
+                    "name": "Right",
+                    "assignment": "{ get; }",
+                    "description": "The right side of the binary expression.",
+                    "type": {
+                        "type": "ExpressionSyntax",
+                        "is_list": false,
+                        "children": []
+                    }
+                }
+            ],
+            "methods": [
+                {
+                    "scope": "public override",
+                    "signature": "GetChildren",
+                    "description": "Returns the child nodes of the binary expression: left expression, operator, and right expression.",
+                    "body": "yield return Left;\nyield return OperatorToken;\nyield return Right;",
+                    "return_type": {
+                        "type": "IEnumerable",
+                        "is_list": true,
+                        "children": [
+                            {
+                                "type": "SyntaxNode",
+                                "is_list": false,
+                                "children": []
+                            }
+                        ]
+                    },
+                    "parameters": []
+                }
+            ]
+        }
+    ]
+}

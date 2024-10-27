@@ -1,0 +1,367 @@
+{
+    "episodes": [
+        {
+            "title": "Binder",
+            "description": "The Binder class performs semantic analysis and binds syntax nodes to their respective types. It checks operators and operands for validity, generates diagnostic messages, and outputs bound expressions.",
+            "episode": [
+                2,
+                2
+            ],
+            "class_scope": "internal sealed",
+            "changes": "",
+            "constructors": [],
+            "properties": [
+                {
+                    "scope": "private readonly",
+                    "name": "_diagnostics",
+                    "assignment": "= new List<string>()",
+                    "description": "Stores diagnostic messages related to binding issues.",
+                    "type": {
+                        "type": "List",
+                        "is_list": true,
+                        "children": [
+                            {
+                                "type": "string",
+                                "is_list": false,
+                                "children": []
+                            }
+                        ]
+                    }
+                },
+                {
+                    "scope": "public",
+                    "name": "Diagnostics",
+                    "assignment": "=> _diagnostics",
+                    "description": "Provides access to diagnostic messages generated during binding.",
+                    "type": {
+                        "type": "IEnumerable",
+                        "is_list": true,
+                        "children": [
+                            {
+                                "type": "string",
+                                "is_list": false,
+                                "children": []
+                            }
+                        ]
+                    }
+                }
+            ],
+            "methods": [
+                {
+                    "scope": "public",
+                    "signature": "BindExpression",
+                    "description": "Binds a given expression syntax node and returns the corresponding bound expression.",
+                    "body": "switch (syntax.Kind)\n{\n\tcase SyntaxKind.LiteralExpression:\n\t\treturn BindLiteralExpression((LiteralExpressionSyntax)syntax);\n\tcase SyntaxKind.UnaryExpression:\n\t\treturn BindUnaryExpression((UnaryExpressionSyntax)syntax);\n\tcase SyntaxKind.BinaryExpression:\n\t\treturn BindBinaryExpression((BinaryExpressionSyntax)syntax);\n\tcase SyntaxKind.ParenthesizedExpression:\n\t\treturn BindExpression(((ParenthesizedExpressionSyntax)syntax).Expression);\n\tdefault:\n\t\tthrow new Exception($\"Unexpected syntax {syntax.Kind}\");\n}",
+                    "return_type": {
+                        "type": "BoundExpression",
+                        "is_list": false,
+                        "children": []
+                    },
+                    "parameters": [
+                        {
+                            "name": "syntax",
+                            "type": {
+                                "type": "ExpressionSyntax",
+                                "is_list": false,
+                                "children": []
+                            }
+                        }
+                    ]
+                },
+                {
+                    "scope": "private",
+                    "signature": "BindLiteralExpression",
+                    "description": "Binds a literal expression syntax node to its bound expression form.",
+                    "body": "var value = syntax.Value ?? 0;\nreturn new BoundLiteralExpression(value);",
+                    "return_type": {
+                        "type": "BoundExpression",
+                        "is_list": false,
+                        "children": []
+                    },
+                    "parameters": [
+                        {
+                            "name": "syntax",
+                            "type": {
+                                "type": "LiteralExpressionSyntax",
+                                "is_list": false,
+                                "children": []
+                            }
+                        }
+                    ]
+                },
+                {
+                    "scope": "private",
+                    "signature": "BindUnaryExpression",
+                    "description": "Binds a unary expression syntax node to its bound expression form, checking the operator for compatibility with the operand.",
+                    "body": "var boundOperand = BindExpression(syntax.Operand);\nvar boundOperator = BoundUnaryOperator.Bind(syntax.OperatorToken.Kind, boundOperand.Type);\n\nif (boundOperator == null)\n{\n\t_diagnostics.Add($\"Unary operator '{syntax.OperatorToken.Text}' is not defined for type {boundOperand.Type}.\");\n\treturn boundOperand;\n}\n\nreturn new BoundUnaryExpression(boundOperator, boundOperand);",
+                    "return_type": {
+                        "type": "BoundExpression",
+                        "is_list": false,
+                        "children": []
+                    },
+                    "parameters": [
+                        {
+                            "name": "syntax",
+                            "type": {
+                                "type": "UnaryExpressionSyntax",
+                                "is_list": false,
+                                "children": []
+                            }
+                        }
+                    ]
+                },
+                {
+                    "scope": "private",
+                    "signature": "BindBinaryExpression",
+                    "description": "Binds a binary expression syntax node to its bound expression form, checking the operator for compatibility with both operands.",
+                    "body": "var boundLeft = BindExpression(syntax.Left);\nvar boundRight = BindExpression(syntax.Right);\n\nvar boundOperator = BoundBinaryOperator.Bind(syntax.OperatorToken.Kind, boundLeft.Type, boundRight.Type);\n\nif (boundOperator == null)\n{\n\t_diagnostics.Add($\"Binary operator '{syntax.OperatorToken.Text}' is not defined for types {boundLeft.Type} and {boundRight.Type}.\");\n\treturn boundLeft;\n}\n\nreturn new BoundBinaryExpression(boundLeft, boundOperator, boundRight);",
+                    "return_type": {
+                        "type": "BoundExpression",
+                        "is_list": false,
+                        "children": []
+                    },
+                    "parameters": [
+                        {
+                            "name": "syntax",
+                            "type": {
+                                "type": "BinaryExpressionSyntax",
+                                "is_list": false,
+                                "children": []
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "title": "Binder",
+            "description": "The Binder class performs semantic analysis and binds syntax nodes to their respective types. It checks operators and operands for validity, generates diagnostic messages, and outputs bound expressions.",
+            "episode": [
+                3,
+                30
+            ],
+            "class_scope": "internal sealed",
+            "changes": "Refactored `BindExpression` method to handle additional syntax types, including `ParenthesizedExpression`, `NameExpression`, and `AssignmentExpression`. \n\nAdded new methods `BindParenthesizedExpression`, `BindNameExpression`, and `BindAssignmentExpression` for specific binding logic. \n\nEnhanced diagnostics to report undefined variables and operators. \n\nUpdated class to use `DiagnosticBag` for collecting diagnostics and track variables through `_variables` dictionary.",
+            "constructors": [
+                {
+                    "scope": "public",
+                    "description": "Initializes a new instance of the Binder class with a dictionary of variable symbols and their associated values.",
+                    "delegated": [],
+                    "parameters": [
+                        {
+                            "name": "variables",
+                            "type": {
+                                "type": "Dictionary",
+                                "is_list": false,
+                                "children": [
+                                    {
+                                        "type": "VariableSymbol",
+                                        "is_list": false
+                                    },
+                                    {
+                                        "type": "object",
+                                        "is_list": false
+                                    }
+                                ]
+                            }
+                        }
+                    ],
+                    "body": "_variables = variables;"
+                }
+            ],
+            "properties": [
+                {
+                    "scope": "private readonly",
+                    "name": "_variables",
+                    "assignment": "",
+                    "description": "Stores variable symbols and their associated values for expression binding.",
+                    "type": {
+                        "type": "Dictionary",
+                        "is_list": false,
+                        "children": [
+                            {
+                                "type": "VariableSymbol",
+                                "is_list": false
+                            },
+                            {
+                                "type": "object",
+                                "is_list": false
+                            }
+                        ]
+                    }
+                },
+                {
+                    "scope": "private readonly",
+                    "name": "_diagnostics",
+                    "assignment": "= new DiagnosticBag()",
+                    "description": "Stores diagnostic messages generated during the binding process.",
+                    "type": {
+                        "type": "DiagnosticBag",
+                        "is_list": false,
+                        "children": []
+                    }
+                },
+                {
+                    "scope": "public",
+                    "name": "Diagnostics",
+                    "assignment": "=> _diagnostics",
+                    "description": "Provides access to diagnostic messages generated during binding.",
+                    "type": {
+                        "type": "DiagnosticBag",
+                        "is_list": false,
+                        "children": []
+                    }
+                }
+            ],
+            "methods": [
+                {
+                    "scope": "public",
+                    "signature": "BindExpression",
+                    "description": "Binds a given expression syntax node and returns the corresponding bound expression.",
+                    "body": "switch (syntax.Kind)\n{\n   case SyntaxKind.ParenthesizedExpression:\n       return BindParenthesizedExpression((ParenthesizedExpressionSyntax)syntax);\n   case SyntaxKind.LiteralExpression:\n       return BindLiteralExpression((LiteralExpressionSyntax)syntax);\n   case SyntaxKind.NameExpression:\n       return BindNameExpression((NameExpressionSyntax)syntax);\n   case SyntaxKind.AssignmentExpression:\n       return BindAssignmentExpression((AssignmentExpressionSyntax)syntax);\n   case SyntaxKind.UnaryExpression:\n       return BindUnaryExpression((UnaryExpressionSyntax)syntax);\n   case SyntaxKind.BinaryExpression:\n       return BindBinaryExpression((BinaryExpressionSyntax)syntax);\n   default:\n       throw new Exception($\"Unexpected syntax {syntax.Kind}\");\n}",
+                    "return_type": {
+                        "type": "BoundExpression",
+                        "is_list": false,
+                        "children": []
+                    },
+                    "parameters": [
+                        {
+                            "name": "syntax",
+                            "type": {
+                                "type": "ExpressionSyntax",
+                                "is_list": false,
+                                "children": []
+                            }
+                        }
+                    ]
+                },
+                {
+                    "scope": "private",
+                    "signature": "BindParenthesizedExpression",
+                    "description": "Binds a parenthesized expression syntax node by binding its inner expression.",
+                    "body": "return BindExpression(syntax.Expression);",
+                    "return_type": {
+                        "type": "BoundExpression",
+                        "is_list": false,
+                        "children": []
+                    },
+                    "parameters": [
+                        {
+                            "name": "syntax",
+                            "type": {
+                                "type": "ParenthesizedExpressionSyntax",
+                                "is_list": false,
+                                "children": []
+                            }
+                        }
+                    ]
+                },
+                {
+                    "scope": "private",
+                    "signature": "BindLiteralExpression",
+                    "description": "Binds a literal expression syntax node to its bound expression form.",
+                    "body": "var value = syntax.Value ?? 0;\nreturn new BoundLiteralExpression(value);",
+                    "return_type": {
+                        "type": "BoundExpression",
+                        "is_list": false,
+                        "children": []
+                    },
+                    "parameters": [
+                        {
+                            "name": "syntax",
+                            "type": {
+                                "type": "LiteralExpressionSyntax",
+                                "is_list": false,
+                                "children": []
+                            }
+                        }
+                    ]
+                },
+                {
+                    "scope": "private",
+                    "signature": "BindNameExpression",
+                    "description": "Binds a name expression syntax node to a variable if defined; otherwise, adds a diagnostic error.",
+                    "body": "var name = syntax.IdentifierToken.Text;\nvar variable = _variables.Keys.FirstOrDefault(v => v.Name == name);\n\nif (variable == null)\n{\n    _diagnostics.ReportUndefinedName(syntax.IdentifierToken.Span, name);\n    return new BoundLiteralExpression(0);\n}\n\nreturn new BoundVariableExpression(variable);",
+                    "return_type": {
+                        "type": "BoundExpression",
+                        "is_list": false,
+                        "children": []
+                    },
+                    "parameters": [
+                        {
+                            "name": "syntax",
+                            "type": {
+                                "type": "NameExpressionSyntax",
+                                "is_list": false,
+                                "children": []
+                            }
+                        }
+                    ]
+                },
+                {
+                    "scope": "private",
+                    "signature": "BindAssignmentExpression",
+                    "description": "Binds an assignment expression, either reusing an existing variable or creating a new one.",
+                    "body": "var name = syntax.IdentifierToken.Text;\nvar boundExpression = BindExpression(syntax.Expression);\nvar existingVariable = _variables.Keys.FirstOrDefault(v => v.Name == name);\n\nif (existingVariable != null)\n    _variables.Remove(existingVariable);\n\nvar variable = new VariableSymbol(name, boundExpression.Type);\n_variables[variable] = null;\n\nreturn new BoundAssignmentExpression(variable, boundExpression);",
+                    "return_type": {
+                        "type": "BoundExpression",
+                        "is_list": false,
+                        "children": []
+                    },
+                    "parameters": [
+                        {
+                            "name": "syntax",
+                            "type": {
+                                "type": "AssignmentExpressionSyntax",
+                                "is_list": false,
+                                "children": []
+                            }
+                        }
+                    ]
+                },
+                {
+                    "scope": "private",
+                    "signature": "BindUnaryExpression",
+                    "description": "Binds a unary expression syntax node to its bound expression form, checking the operator for compatibility with the operand.",
+                    "body": "var boundOperand = BindExpression(syntax.Operand);\nvar boundOperator = BoundUnaryOperator.Bind(syntax.OperatorToken.Kind, boundOperand.Type);\n\nif (boundOperator == null)\n{\n    _diagnostics.ReportUndefinedUnaryOperator(syntax.OperatorToken.Span, syntax.OperatorToken.Text, boundOperand.Type);\n    return boundOperand;\n}\n\nreturn new BoundUnaryExpression(boundOperator, boundOperand);",
+                    "return_type": {
+                        "type": "BoundExpression",
+                        "is_list": false,
+                        "children": []
+                    },
+                    "parameters": [
+                        {
+                            "name": "syntax",
+                            "type": {
+                                "type": "UnaryExpressionSyntax",
+                                "is_list": false,
+                                "children": []
+                            }
+                        }
+                    ]
+                },
+                {
+                    "scope": "private",
+                    "signature": "BindBinaryExpression",
+                    "description": "Binds a binary expression syntax node to its bound expression form, checking the operator for compatibility with both operands.",
+                    "body": "var boundLeft = BindExpression(syntax.Left);\nvar boundRight = BindExpression(syntax.Right);\n\nvar boundOperator = BoundBinaryOperator.Bind(syntax.OperatorToken.Kind, boundLeft.Type, boundRight.Type);\n\nif (boundOperator == null)\n{\n    _diagnostics.ReportUndefinedBinaryOperator(syntax.OperatorToken.Span, syntax.OperatorToken.Text, boundLeft.Type, boundRight.Type);\n    return boundLeft;\n}\n\nreturn new BoundBinaryExpression(boundLeft, boundOperator, boundRight);",
+                    "return_type": {
+                        "type": "BoundExpression",
+                        "is_list": false,
+                        "children": []
+                    },
+                    "parameters": [
+                        {
+                            "name": "syntax",
+                            "type": {
+                                "type": "BinaryExpressionSyntax",
+                                "is_list": false,
+                                "children": []
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,14 @@
+.select {
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+    margin-left: auto;
+    gap: 5px;
+
+    font-size: 0.7rem;
+    color: var(--foreground-1);
+    font-weight: 500;
+}.select:hover {
+    cursor: pointer;
+    color: var(--foreground-0);
+}

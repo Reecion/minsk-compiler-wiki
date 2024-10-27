@@ -1,0 +1,82 @@
+.searchBar {
+    position: relative;
+    height: 2rem;
+    min-width: 15rem;
+    margin: auto 0;
+} .searchBar:hover {
+    cursor: text;
+}
+
+.searchBarTitle {
+    height: 100%;
+    width: 100%;
+
+    display: flex;
+    justify-content: flex-start;
+    align-content: center;
+    gap: 5px;
+
+    margin: auto 0;
+    border-radius: 100px;
+    background-color: var(--background-1);
+}
+
+.searchBarInput {
+    background-color: transparent;
+    font-size: 0.7rem;
+    color: var(--foreground-1);
+    font-weight: 500;
+    width: 100%;
+}.searchBarInput:focus {
+    outline: none;
+}
+
+.select {
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+    gap: 5px;
+
+    font-size: 0.7rem;
+    color: var(--foreground-1);
+    font-weight: 500;
+}.select:hover {
+    cursor: pointer;
+    color: var(--foreground-0);
+}.select > span {
+    white-space: pre;
+    overflow: hidden;
+}
+
+.searchList {
+    position: absolute;
+    overflow-y: scroll;
+    width: 100%;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding-top: 5px;
+    margin: 0 5px;
+    z-index: 5;
+}
+.searchItem {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+
+    background-color: var(--background-1);
+    border-bottom: 1px solid var(--background-0);
+    border-left: 1px solid var(--background-0);
+    border-right: 1px solid var(--background-0);
+    padding: 10px;
+}.searchItem:hover {
+    background-color: var(--focus-color);
+    cursor: pointer;
+}
+.searchItemTitle {
+    color: var(--foreground-0);
+    font-size: 0.7rem;
+}
+.searchItemDescription {
+    color: var(--foreground-1);
+    font-size: 0.6rem;
+}
